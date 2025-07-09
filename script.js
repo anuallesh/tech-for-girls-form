@@ -37,6 +37,15 @@ shareBtn.addEventListener("click", () => {
   }
 });
 
+async function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+}
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -56,27 +65,32 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
-  const formData = new FormData();
-  formData.append("name", name);
-  formData.append("phone", phone);
-  formData.append("email", email);
-  formData.append("college", college);
-  formData.append("screenshot", file);
-
   try {
-    // Use CORS proxy to avoid CORS block
-    const scriptURL = "https://script.google.com/macros/s/AKfycbzuSpE4-XQ4TnrQgQt2D2GNZMcIUAEC-MzOrJEr9bIs9OXVi80x9jvUZOjSVpdJ_mRP/exec";
+    const base64File = await toBase64(file);
 
-    const response = await fetch(proxyURL, {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      "https://script.google.com/macros/s/AKfycbwSd5AnT2FhnXP5i9H9smqCFlsPtNWBRp848Y9rkIg-YLTqPF5hp6BaOWsIIU7FaY_M/exec",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          name,
+          phone,
+          email,
+          college,
+          screenshot: base64File,
+          fileType: file.type,
+        }),
+      }
+    );
 
-    const result = await response.text(); // or .json() if your script returns JSON
+    const result = await response.json();
     console.log("Response from server:", result);
 
-    if (!response.ok || result.toLowerCase().includes("error")) {
-      throw new Error("Server returned an error: " + result);
+    if (!response.ok || result.result !== "success") {
+      throw new Error(result.message || "Unknown error");
     }
 
     localStorage.setItem("submitted", "true");
