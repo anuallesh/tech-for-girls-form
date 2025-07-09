@@ -65,7 +65,7 @@ form.addEventListener("submit", async (e) => {
 
   try {
     // Use CORS proxy to avoid CORS block
-    const scriptURL = "https://script.google.com/macros/s/AKfycbzF10V47NscL1M0kctwq8Cv-PIkQxm7SksxFdtE2wIdQmNvRZTUYJY-u1BxsHiO8jPP/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxvE_AZtzimGPVrJ1HPHXJHf7Oy0GqGRFep9AveUWd_KFTLV0Y0i5W78BoGlXCalhN6/exec";
     const proxyURL = "https://corsproxy.io/?" + encodeURIComponent(scriptURL);
 
     const response = await fetch(proxyURL, {
