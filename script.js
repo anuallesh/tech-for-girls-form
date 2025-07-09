@@ -64,12 +64,16 @@ form.addEventListener("submit", async (e) => {
   formData.append("screenshot", file);
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbyv6x4aB2uzyBGqP58eAlE0ipNuepX4D9LXirlVYtNdzjsjhRlxQqkkxhHuEkyHwkip/exec", {
+    // Use CORS proxy to avoid CORS block
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzF10V47NscL1M0kctwq8Cv-PIkQxm7SksxFdtE2wIdQmNvRZTUYJY-u1BxsHiO8jPP/exec";
+    const proxyURL = "https://corsproxy.io/?" + encodeURIComponent(scriptURL);
+
+    const response = await fetch(proxyURL, {
       method: "POST",
       body: formData,
     });
 
-    const result = await response.text(); // or .json() if you return JSON
+    const result = await response.text(); // or .json() if your script returns JSON
     console.log("Response from server:", result);
 
     if (!response.ok || result.toLowerCase().includes("error")) {
