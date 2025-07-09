@@ -9,7 +9,7 @@ const successMsg = document.getElementById("successMsg");
 const toast = document.getElementById("toast");
 
 function updateCounter() {
-  clickCounter.textContent = `Click count: ${count}/5`;
+  clickCounter.textContent = `Click count: ${count}/10`;
   if (count >= 10) {
     clickCounter.textContent = "Sharing complete. Please continue.";
     shareBtn.disabled = true;
@@ -30,7 +30,6 @@ shareBtn.addEventListener("click", () => {
 
     window.open(`https://wa.me/?text=${message}`, "_blank");
 
-    // Show toast notification
     toast.className = "show";
     setTimeout(() => {
       toast.className = toast.className.replace("show", "");
@@ -42,7 +41,7 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   if (count < 10) {
-    alert("Please complete 5 WhatsApp shares before submitting.");
+    alert("Please complete 10 WhatsApp shares before submitting.");
     return;
   }
 
@@ -65,12 +64,12 @@ form.addEventListener("submit", async (e) => {
   formData.append("screenshot", file);
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbyW5zGgmcBUjzFLMLbQL7XyS55dziREBQP5GaBNssy2WOMPa0qTYnHl8cCVcjoz4WlX/exec", {
+    const response = await fetch("https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec", {
       method: "POST",
       body: formData,
     });
 
-    const result = await response.text(); // Or use .json() if script returns JSON
+    const result = await response.text(); // or .json() if you return JSON
     console.log("Response from server:", result);
 
     if (!response.ok || result.toLowerCase().includes("error")) {
@@ -81,6 +80,7 @@ form.addEventListener("submit", async (e) => {
     form.reset();
     form.querySelectorAll("input, button").forEach((el) => (el.disabled = true));
     successMsg.classList.remove("hidden");
+
   } catch (err) {
     console.error("Fetch error:", err);
     alert("Error submitting form. Try again.");
