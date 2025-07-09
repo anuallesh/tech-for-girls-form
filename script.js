@@ -65,7 +65,7 @@ form.addEventListener("submit", async (e) => {
   formData.append("screenshot", file);
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbyF5btl5_8iOyZLVyF97xtWrCN42aUI7WDCp0Tueq1M4p3GOTvVhXPPJDrtCAiJ-4qs/exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbwGc5w5ilE30ECAmcr8_M9kjvhMLWVPbpPOqFL4ZcDgCUwNpF0rFcB3L_Jzo07a2a6s/exec", {
       method: "POST",
       body: formData,
     });
