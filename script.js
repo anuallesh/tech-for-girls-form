@@ -9,8 +9,8 @@ const successMsg = document.getElementById("successMsg");
 const toast = document.getElementById("toast");
 
 function updateCounter() {
-  clickCounter.textContent = `Click count: ${count}/10`;
-  if (count >= 10) {
+  clickCounter.textContent = `Click count: ${count}/5`;
+  if (count >= 5) {
     clickCounter.textContent = "Sharing complete. Please continue.";
     shareBtn.disabled = true;
   }
@@ -19,13 +19,13 @@ function updateCounter() {
 updateCounter();
 
 shareBtn.addEventListener("click", () => {
-  if (count < 10) {
+  if (count < 5) {
     count++;
     localStorage.setItem("clickCount", count);
     updateCounter();
 
     const message = encodeURIComponent(
-      `Hey Buddy! 👋\n\nI just joined the *Tech For Girls Community* 🚀 and it's amazing!\nCome join us too and grow your tech journey 💻✨\n\n👉 Join here: https://chat.whatsapp.com/KpIdexT77u3GbW1xkGYUbR\n\n(After WhatsApp opens, select friends or groups you want to share this invite with.)`
+      `Hey Buddy! 👋\n\n Join the *Tech For Girls Community* 🚀 and it's amazing!\nCome join us too and grow your tech journey 💻✨\n\n👉 Join here: https://chat.whatsapp.com/KpIdexT77u3GbW1xkGYUbR\n\n(After WhatsApp opens, select friends or groups you want to share this invite with.)`
     );
 
     window.open(`https://wa.me/?text=${message}`, "_blank");
@@ -49,8 +49,8 @@ async function toBase64(file) {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  if (count < 10) {
-    alert("Please complete 10 WhatsApp shares before submitting.");
+  if (count < 5) {
+    alert("Please complete 5 WhatsApp shares before submitting.");
     return;
   }
 
